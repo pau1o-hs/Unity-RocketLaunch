@@ -43,6 +43,8 @@ public class Cinematic : MonoBehaviour
 		startAngle = rocket.rotation;
 
 		rocket.velocity = Vector2.zero;
+
+		ResetSimulation();
 	}
 
     // Update is called once per frame
@@ -51,15 +53,10 @@ public class Cinematic : MonoBehaviour
 		Time.timeScale = time.speed;
 		time.time += Time.deltaTime;
 
-		if (time.time >= time.max)
-		{
-			ResetSimulation();
-		}
-
 		if (planetDistance[0] > (planet[0].position - startPosition).magnitude)
+		{
 			launched = true;
-		else if (launched == true)
-			ResetSimulation();
+		}
 
 		Thrust();
 		Gravity();
@@ -95,20 +92,6 @@ public class Cinematic : MonoBehaviour
 
 			ui.propellant[2].fuel.value = 1 - ((time.time - propellant[0].time - propellant[1].time) / propellant[2].time);
 		}
-
-		//rocket.velocity = orbitVelocity * transform.right;
-		//rocket.rotation = 180 - Vector2.SignedAngle(transform.localPosition, Vector2.up);
-
-		//if (!adjusted)
-		//{
-		//	orbitVelocity = Mathf.Sqrt(6.673f * 10f / transform.localPosition.magnitude);
-		//rocket.velocity = orbitVelocity * transform.right;
-		//rocket.angularVelocity = 6 * (rocket.velocity.magnitude / transform.localPosition.magnitude);
-
-		//adjusted = true;
-		//}
-		//else rocket.angularVelocity = 6 * (rocket.velocity.magnitude / transform.localPosition.magnitude);
-		//print(transform.localPosition.magnitude);
 	}
 
 	void Gravity()
@@ -136,9 +119,9 @@ public class Cinematic : MonoBehaviour
 
 		for (int i = 0; i < propellant.Length; i++)
 		{
-			ui.propellant[i].valueThrust.text = ui.propellant[i].thrust.value.ToString("000000") + " N";
-			ui.propellant[i].valueTorque.text = ui.propellant[i].torque.value.ToString("F0") + " N.m";
-			ui.propellant[i].valueTime.text = ui.propellant[i].time.value.ToString("000") + " s";
+			ui.propellant[i].thrust.value = int.Parse(ui.propellant[i].valueThrust.text);
+			ui.propellant[i].torque.value = float.Parse(ui.propellant[i].valueTorque.text);
+			ui.propellant[i].time.value = float.Parse(ui.propellant[i].valueTime.text);
 		}
 	}
 
@@ -163,5 +146,11 @@ public class Cinematic : MonoBehaviour
 		ui.propellant[0].fuel.value = 1;
 		ui.propellant[1].fuel.value = 1;
 		ui.propellant[2].fuel.value = 1;
+	}
+
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		if (launched && (other.transform.name == "Earth" || other.transform.name == "Moon"))
+			ResetSimulation();
 	}
 }
