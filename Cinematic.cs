@@ -27,7 +27,7 @@ public class Cinematic : MonoBehaviour
 	public Manager_UI ui;
 
 	Rigidbody2D rocket;
-    Vector2 startPosition;
+    	Vector2 startPosition;
 
 	float startAngle;
 	float[] planetDistance = new float[2];
@@ -36,10 +36,10 @@ public class Cinematic : MonoBehaviour
 
 	// Start is called before the first frame update
 	void Start()
-    {
+    	{
 		rocket = GetComponent<Rigidbody2D>();
 
-        startPosition = rocket.position;
+        	startPosition = rocket.position;
 		startAngle = rocket.rotation;
 
 		rocket.velocity = Vector2.zero;
