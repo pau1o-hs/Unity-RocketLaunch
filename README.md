@@ -1,5 +1,5 @@
 # Unity-RocketLaunch
-A rocket launch simulation. Implemented gravity, torque, and momentum;
+A rocket launch simulation. Implemented gravity, torque, and momentum using Unity.
 The objective is to create a simulation where facilitate the understanding of how forces acting on a body behave and work.
 
 ## Play
